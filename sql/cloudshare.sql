@@ -2,25 +2,19 @@ DROP DATABASE IF EXISTS CloudShare;
 CREATE DATABASE CloudShare;
 USE CloudShare;
 
-"""
-将数据库的第一列列名命名为uuid是因为UUID(通用唯一识别码)是一种能够全球唯一地标识一个资源的标识符。
-在数据库中使用UUID作为主键,可以确保每个记录都具有唯一性,并且不会与其他表发生冲突。
-此外,UUID通常是随机生成的,这种随机性可以提高安全性和保护隐私。
-因此,将数据库的第一列列名命名为UUID是一种常见的做法,可以帮助确保数据的唯一性和安全性。
-"""
 
-CREATE TABLE `Bridge`(
+CREATE TABLE `cloudshare10_Bridge`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CreateTime` timestamp NOT NULL DEFAULT '2023-04-30 00:00:00',
     `ShareUUID` char(36) DEFAULT NULL, 
     `MatterUUID` char(36) DEFAULT NULL,
-    PRIMARY KEY (`UUID`),   --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`)  --将UUID列设置为唯一键
+    PRIMARY KEY (`UUID`),   
+    UNIQUE KEY `UUID` (`UUID`)  
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `Dashboard`(
+CREATE TABLE `cloudshare10_Dashboard`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -35,12 +29,12 @@ CREATE TABLE `Dashboard`(
     `TotalFileSize` bigint(20) NOT NULL DEFAULT '0',
     `AverageCost` bigint(20) NOT NULL DEFAULT '0',
     `DataTime` varchar(45) NOT NULL,
-    PRIMARY KEY (`UUID`),   --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`),  --将UUID列设置为唯一键
-    KEY `Index_DataTime` (`DataTime`) --为DataTime列创建一个索引，以提高查询效率
+    PRIMARY KEY (`UUID`),   
+    UNIQUE KEY `UUID` (`UUID`),  
+    KEY `Index_DataTime` (`DataTime`) 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `DownloadToken`(
+CREATE TABLE `cloudshare10_DownloadToken`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -49,12 +43,12 @@ CREATE TABLE `DownloadToken`(
     `MatterUUID` char(36) NOT NULL,
     `ExpireTime` timestamp NOT NULL DEFAULT '2023-04-30 00:00:00', 
     `IP` varchar(128) NOT NULL,
-    PRIMARY KEY (`UUID`),   --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`),  --将UUID列设置为唯一键
-    KEY `Index_MatterUUID` (`MatterUUID`) --为MatterUUID列创建一个索引，以提高查询效率
+    PRIMARY KEY (`UUID`),   
+    UNIQUE KEY `UUID` (`UUID`),  
+    KEY `Index_MatterUUID` (`MatterUUID`) 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `FootPrint`(
+CREATE TABLE `cloudshare10_FootPrint`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -66,11 +60,11 @@ CREATE TABLE `FootPrint`(
     `Params` text,
     `Cost` bigint(20) NOT NULL DEFAULT '0',
     `Success` tinyint(1) NOT NULL DEFAULT '0',
-    PRIMARY KEY (`UUID`), --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`) --将UUID列设置为唯一键
+    PRIMARY KEY (`UUID`), 
+    UNIQUE KEY `UUID` (`UUID`) 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `ImageCache`(
+CREATE TABLE `cloudshare10_ImageCache`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -84,12 +78,12 @@ CREATE TABLE `ImageCache`(
     `MD5` varchar(45) DEFAULT NULL,
     `Size` bigint(20) NOT NULL DEFAULT '0',
     `Path` varchar(512) DEFAULT NULL,
-    PRIMARY KEY (`UUID`), --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`), --将UUID列设置为唯一键
-    KEY `Index_MatterUUID` (`MatterUUID`) --为MatterUUID列创建一个索引，以提高查询效率
+    PRIMARY KEY (`UUID`), 
+    UNIQUE KEY `UUID` (`UUID`), 
+    KEY `Index_MatterUUID` (`MatterUUID`) 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `Matter`(
+CREATE TABLE `cloudshare10_Matter`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -108,15 +102,15 @@ CREATE TABLE `Matter`(
     `VisitTime` timestamp NOT NULL DEFAULT '2023-04-30 00:00:00',
     `Deleted` tinyint(1) NOT NULL DEFAULT '0',
     `DeleteTime` timestamp NOT NULL DEFAULT '2023-04-30 00:00:00', 
-    PRIMARY KEY (`UUID`), --将uuid列作为主键
-    UNIQUE KEY `UUID` (`UUID`), --将uuid列设置为唯一键
-    KEY `Index_PUUID` (`PUUID`), --为puuid列创建一个索引,以提高查询效率
-    KEY `Index_UserUUID` (`UserUUID`), --为user_uuid列创建一个索引,以提高查询效率
-    KEY `Index_Deleted` (`Deleted`), --为deleted列创建一个索引,以提高查询效率
-    KEY `Index_DeleteTime` (`DeleteTime`) --为delete_time列创建一个索引,以提高查询效率
+    PRIMARY KEY (`UUID`), 
+    UNIQUE KEY `UUID` (`UUID`), 
+    KEY `Index_PUUID` (`PUUID`), 
+    KEY `Index_UserUUID` (`UserUUID`), 
+    KEY `Index_Deleted` (`Deleted`), 
+    KEY `Index_DeleteTime` (`DeleteTime`) 
     )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `Preference`(
+CREATE TABLE `cloudshare10_Preference`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -133,11 +127,11 @@ CREATE TABLE `Preference`(
     `PreviewConfig` text,
     `ScanConfig` text,
     `DeletedKeepDays` bigint(20) NOT NULL DEFAULT '7',
-    PRIMARY KEY (`UUID`), --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`) --将UUID列设置为唯一键
+    PRIMARY KEY (`UUID`), 
+    UNIQUE KEY `UUID` (`UUID`) 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `Session`(
+CREATE TABLE `cloudshare10_Session`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `sort` bigint(20) NOT NULL,
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -145,11 +139,11 @@ CREATE TABLE `Session`(
     `user_uuid` char(36) DEFAULT NULL,
     `ip` varchar(128) NOT NULL,
     `expire_time` timestamp NOT NULL DEFAULT '2023-04-30 00:00:00',
-    PRIMARY KEY (`UUID`), --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`) --将UUID列设置为唯一键
+    PRIMARY KEY (`UUID`), 
+    UNIQUE KEY `UUID` (`UUID`) 
 )
 
-CREATE TABLE `Share`(
+CREATE TABLE `cloudshare10_Share`(
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -162,11 +156,11 @@ CREATE TABLE `Share`(
     `Code` varchar(45) NOT NULL,
     `ExpireInfinity` tinyint(1) NOT NULL DEFAULT '0',
     `ExpireTime` timestamp NOT NULL DEFAULT '2023-04-30 00:00:00',
-    PRIMARY KEY (`UUID`), --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`) --将UUID列设置为唯一键
+    PRIMARY KEY (`UUID`), 
+    UNIQUE KEY `UUID` (`UUID`) 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `UploadToken` (
+CREATE TABLE `cloudshare10_UploadToken` (
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -179,11 +173,11 @@ CREATE TABLE `UploadToken` (
     `Privacy` tinyint(1) NOT NULL DEFAULT '0',
     `Size` bigint(20) NOT NULL DEFAULT '0',
     `IP` varchar(128) NOT NULL,
-    PRIMARY KEY (`UUID`), --将UUID列作为主键
-    UNIQUE KEY `UUID` (`UUID`) --将UUID列设置为唯一键
+    PRIMARY KEY (`UUID`), 
+    UNIQUE KEY `UUID` (`UUID`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `User` (
+CREATE TABLE `cloudshare10_User` (
     `UUID` char(36) NOT NULL DEFAULT '',
     `Sort` bigint(20) NOT NULL,
     `UpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -198,7 +192,7 @@ CREATE TABLE `User` (
     `TotalSizeLimit` bigint(20) NOT NULL DEFAULT '-1',
     `TotalSize` bigint(20) NOT NULL DEFAULT '0',
     `Status` varchar(45) DEFAULT NULL,
-    PRIMARY KEY (`UUID`),   --将UUID列作为主键
-    UNIQUE KEY `UserName` (`UserName`), --将UserName列设置为唯一键
-    UNIQUE KEY `UUID` (`UUID`)  --将UUID列设置为唯一键
+    PRIMARY KEY (`UUID`),   
+    UNIQUE KEY `UserName` (`UserName`),
+    UNIQUE KEY `UUID` (`UUID`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
